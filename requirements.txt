@@ -1,4 +1,5 @@
-git+https://github.com/aredden/torch-cublas-hgemm.git@master
+#可选，使用 cuBLAS 可以加快非 fp8 线性层的推理速度，但因为网络问题老是安装失败
+#git+https://github.com/aredden/torch-cublas-hgemm.git@master
 einops
 PyTurboJPEG
 pydantic
