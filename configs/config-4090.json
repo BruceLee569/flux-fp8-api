@@ -1,0 +1,65 @@
+{
+  "version": "flux-schnell", // or flux-schnell
+  "params": {
+    "in_channels": 64,
+    "vec_in_dim": 768,
+    "context_in_dim": 4096,
+    "hidden_size": 3072,
+    "mlp_ratio": 4.0,
+    "num_heads": 24,
+    "depth": 19,
+    "depth_single_blocks": 38,
+    "axes_dim": [
+      16,
+      56,
+      56
+    ],
+    "theta": 10000,
+    "qkv_bias": true,
+    "guidance_embed": false // if you are using flux-schnell, set this to false
+  },
+  "ae_params": {
+    "resolution": 256,
+    "in_channels": 3,
+    "ch": 128,
+    "out_ch": 3,
+    "ch_mult": [
+      1,
+      2,
+      4,
+      4
+    ],
+    "num_res_blocks": 2,
+    "z_channels": 16,
+    "scale_factor": 0.3611,
+    "shift_factor": 0.1159
+  },
+  
+  "ckpt_path": "/your/path/to/flux1-dev.sft", // local path to original bf16 BFL flux checkpoint
+  "ae_path": "/your/path/to/ae.sft", // local path to original bf16 BFL autoencoder checkpoint
+  "text_enc_path": "city96/t5-v1_1-xxl-encoder-bf16", // or custom HF full bf16 T5EncoderModel repo id
+  
+  "text_enc_max_length": 256, // use 256 if you are using flux-schnell
+  "text_enc_device": "cuda:0",
+  //"repo_id": "black-forest-labs/FLUX.1-dev", // can ignore
+  //"repo_flow": "flux1-dev.sft", // can ignore
+  //"repo_ae": "ae.sft", // can ignore
+  "ae_device": "cuda:0",
+  "flux_device": "cuda:0",
+  "flow_dtype": "float16",
+  "ae_dtype": "bfloat16",
+  "text_enc_dtype": "bfloat16",
+  //"flow_quantization_dtype": "qfloat8", // will always be qfloat8, so can ignore
+  "text_enc_quantization_dtype": "qint4", // choose between qint4, qint8, qfloat8, qint2 or delete entry for no quantization
+  "ae_quantization_dtype": "qfloat8", // can either be qfloat8 or delete entry for no quantization
+  
+  "compile_extras": true, // compile the layers not included in the single-blocks or double-blocks
+  "compile_blocks": true, // compile the single-blocks and double-blocks
+  "offload_text_encoder": true, // offload the text encoder to cpu when not in use
+  "offload_vae": true, // offload the autoencoder to cpu when not in use
+  "offload_flow": false, // offload the flow transformer to cpu when not in use
+  
+  "prequantized_flow": false, // load the flow transformer from a prequantized checkpoint, which reduces the size of the checkpoint by about 50% & reduces startup time (default: false)
+  "quantize_modulation": true, // quantize the modulation layers in the flow transformer, which reduces precision moderately but saves ~2GB vram usage (default: true)
+  "quantize_flow_embedder_layers": false, // quantize the flow embedder layers in the flow transformer, if false, improves precision considerably at the cost of adding ~512MB vram usage (default: false)
+}
