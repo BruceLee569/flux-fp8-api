@@ -35,9 +35,10 @@
     "shift_factor": 0.1159
   },
   
-  "ckpt_path": "/your/path/to/flux1-dev.sft", // local path to original bf16 BFL flux checkpoint
-  "ae_path": "/your/path/to/ae.sft", // local path to original bf16 BFL autoencoder checkpoint
-  "text_enc_path": "city96/t5-v1_1-xxl-encoder-bf16", // or custom HF full bf16 T5EncoderModel repo id
+  "ckpt_path": "/root/autodl-tmp/models/flux1-schnell.safetensors", // local path to original bf16 BFL flux checkpoint
+  "ae_path": "/root/autodl-tmp/models/ae.safetensors", // local path to original bf16 BFL autoencoder checkpoint
+  "text_enc_path": "/root/autodl-tmp/models/t5-v1_1-xxl-encoder-bf16.safetensors",
+  //"text_enc_path": "city96/t5-v1_1-xxl-encoder-bf16", // or custom HF full bf16 T5EncoderModel repo id
   
   "text_enc_max_length": 256, // use 256 if you are using flux-schnell
   "text_enc_device": "cuda:0",
