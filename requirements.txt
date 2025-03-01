@@ -3,7 +3,7 @@
 # 至少需要具有 cuda=12.4 的 pytorch 和 ada 架构的 gpu（40系）
 # 安装时指定 --pre 可获取最新的夜间构建版 torch ，一般速度更快
 # pip install -r requirements.txt --pre torch torchvision torchaudio --index-url https://download.pytorch.org/whl/nightly/cu124
-pytorch
+torch
 torchvision
 torchaudio
 optimum-quanto
