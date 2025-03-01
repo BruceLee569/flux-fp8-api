@@ -57,7 +57,7 @@
   "compile_extras": true,
   "compile_blocks": true,
 
-  "offload_text_encoder": false,
+  "offload_text_encoder": true,
   "offload_vae": true,
   "offload_flow": false,
 
