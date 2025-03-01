@@ -594,7 +594,7 @@ class FluxPipeline:
         if not silent:
             logger.info(f"Generating with:\nSeed: {seed}\nPrompt: {prompt}")
 
-        logger.info(f"1、开始图片处理")
+        logger.info(f"开始图片处理")
 
         # preprocess the latent
         start_preprocess = time.time()

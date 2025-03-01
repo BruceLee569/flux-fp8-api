@@ -52,16 +52,16 @@
   "text_enc_device": "cuda:0",
   "text_enc_dtype": "bfloat16",
   "text_enc_quantization_dtype": "qfloat8",
-  "text_enc_max_length": 128,
+  "text_enc_max_length": 77,
 
   "compile_extras": true,
   "compile_blocks": true,
 
-  "offload_text_encoder": true,
+  "offload_text_encoder": false,
   "offload_vae": true,
   "offload_flow": false,
 
   "prequantized_flow": false,
-  "quantize_modulation": false,
+  "quantize_modulation": true,
   "quantize_flow_embedder_layers": false
 }
