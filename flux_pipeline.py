@@ -594,8 +594,10 @@ class FluxPipeline:
         if not silent:
             logger.info(f"Generating with:\nSeed: {seed}\nPrompt: {prompt}")
 
+        logger.info(f"1、开始图片处理")
+
         # preprocess the latent
-        start_preprocess_latent = time.time()
+        start_preprocess = time.time()
         img, timesteps = self.preprocess_latent(
             init_image=init_image,
             height=height,
@@ -605,8 +607,6 @@ class FluxPipeline:
             generator=generator,
             num_images=num_images,
         )
-        end_preprocess_latent = time.time()
-        logger.info(f"1、预处理潜空间用时: {end_preprocess_latent-start_preprocess_latent:.2f}")
 
         # prepare inputs
         img, img_ids, vec, txt, txt_ids = map(
@@ -627,6 +627,9 @@ class FluxPipeline:
         # dispatch to gpu if offloaded
         if self.offload_flow:
             self.model.to(self.device_flux)
+
+        end_preprocess = time.time()
+        logger.info(f"1、图片预处理用时: {end_preprocess-start_preprocess:.2f}")
 
         # perform the denoising loop
         for t_curr, t_prev in tqdm(
