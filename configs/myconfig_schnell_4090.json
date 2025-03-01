@@ -36,7 +36,7 @@
   },
   "ckpt_path": "/root/autodl-tmp/models/flux1-schnell.safetensors",
   "ae_path": "/root/autodl-tmp/models/ae.safetensors",
-  "text_enc_path": "city96/t5-v1_1-xxl-encoder-bf16",
+  "text_enc_path": "/root/autodl-tmp/models/t5-xxl",
 
   "repo_id": "black-forest-labs/FLUX.1-schnell",
   "repo_flow": "flux1-schnell.safetensors",
