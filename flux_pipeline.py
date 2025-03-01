@@ -662,7 +662,7 @@ class FluxPipeline:
             self.model.to("cpu")
             torch.cuda.empty_cache()
 
-        logger.info(f"2、图片去噪循环用时: {time.time()-end_preprocess_latent:.2f}")
+        logger.info(f"2、图片去噪循环用时: {time.time()-end_preprocess:.2f}")
 
         # decode latents to pixel space
         start_vae_decode = time.time()
