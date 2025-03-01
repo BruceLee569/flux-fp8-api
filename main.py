@@ -161,7 +161,9 @@ def main():
     from flux_pipeline import FluxPipeline
     from util import load_config, ModelVersion
 
+    from loguru import logger
     logger.info(f"开始载入配置：{args.config_path}")
+
     if args.config_path:
         app.state.model = FluxPipeline.load_pipeline_from_config_path(
             args.config_path, flow_model_path=args.flow_model_path, debug=args.debug
