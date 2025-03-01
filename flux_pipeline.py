@@ -625,7 +625,6 @@ class FluxPipeline:
         )
         t_vec = None
         # dispatch to gpu if offloaded
-        logger.info(f"111:{self.offload_flow}")
         if self.offload_flow:
             self.model.to(self.device_flux)
 
