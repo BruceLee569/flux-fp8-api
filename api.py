@@ -120,3 +120,13 @@ def lora_action(args: LoraArgs):
             status_code=500, content={"status": "error", "message": str(e)}
         )
     return JSONResponse(status_code=200, content={"status": "success"})
+
+@app.on_event("startup")
+def startup_event():
+    payload = {
+        "width": 512,
+        "height": 512,
+        "prompt": "a beautiful asian woman",
+    }
+    result = app.state.model.generate(**payload)
+    print(f'首次加载预热：{result}')
