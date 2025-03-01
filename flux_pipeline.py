@@ -1,5 +1,6 @@
 import io
 import math
+import time
 import random
 import warnings
 from typing import TYPE_CHECKING, Callable, List, Optional, OrderedDict, Union
@@ -663,12 +664,14 @@ class FluxPipeline:
         # decode latents to pixel space
         start_vae_decode = time.time()
         img = self.vae_decode(img, height, width)
-        end_vae_decode = time.time()
-        logger.info(f"2、vae解码用时: {end_vae_decode-start_vae_decode:.2f}")
+
+        img_bytes = self.into_bytes(img, jpeg_quality=jpeg_quality)
+
+        logger.info(f"3、vae解码图片为字节用时: {time.time()-start_vae_decode:.2f}")
 
         if return_seed:
-            return self.into_bytes(img, jpeg_quality=jpeg_quality), seed
-        return self.into_bytes(img, jpeg_quality=jpeg_quality)
+            return img_bytes, seed
+        return img_bytes
 
     @classmethod
     def load_pipeline_from_config_path(
