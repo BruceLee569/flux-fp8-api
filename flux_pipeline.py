@@ -594,6 +594,7 @@ class FluxPipeline:
             logger.info(f"Generating with:\nSeed: {seed}\nPrompt: {prompt}")
 
         # preprocess the latent
+        start_preprocess_latent = time.time()
         img, timesteps = self.preprocess_latent(
             init_image=init_image,
             height=height,
@@ -603,6 +604,8 @@ class FluxPipeline:
             generator=generator,
             num_images=num_images,
         )
+        end_preprocess_latent = time.time()
+        logger.info(f"1、预处理潜空间用时: {end_preprocess_latent-start_preprocess_latent:.2f}")
 
         # prepare inputs
         img, img_ids, vec, txt, txt_ids = map(
@@ -655,8 +658,13 @@ class FluxPipeline:
             self.model.to("cpu")
             torch.cuda.empty_cache()
 
+        logger.info(f"2、图片去噪循环用时: {time.time()-end_preprocess_latent:.2f}")
+
         # decode latents to pixel space
+        start_vae_decode = time.time()
         img = self.vae_decode(img, height, width)
+        end_vae_decode = time.time()
+        logger.info(f"2、vae解码用时: {end_vae_decode-start_vae_decode:.2f}")
 
         if return_seed:
             return self.into_bytes(img, jpeg_quality=jpeg_quality), seed

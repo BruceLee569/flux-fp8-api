@@ -26,6 +26,12 @@ def parse_args():
         help="Host to run the server on",
     )
     parser.add_argument(
+        "-d",
+        "--debug",
+        action="store_true",
+        help="Enable debug mode for detailed logging and output",
+    )
+    parser.add_argument(
         "-f", "--flow-model-path", type=str, help="Path to the flow model"
     )
     parser.add_argument(
@@ -157,7 +163,7 @@ def main():
 
     if args.config_path:
         app.state.model = FluxPipeline.load_pipeline_from_config_path(
-            args.config_path, flow_model_path=args.flow_model_path
+            args.config_path, flow_model_path=args.flow_model_path, debug=args.debug
         )
     else:
         model_version = (
@@ -190,7 +196,7 @@ def main():
             quantize_modulation=args.quantize_modulation,
             quantize_flow_embedder_layers=args.quantize_flow_embedder_layers,
         )
-        app.state.model = FluxPipeline.load_pipeline_from_config(config)
+        app.state.model = FluxPipeline.load_pipeline_from_config(config, debug=args.debug)
 
     uvicorn.run(app, host=args.host, port=args.port)
 
