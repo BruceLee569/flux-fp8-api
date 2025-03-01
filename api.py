@@ -129,4 +129,8 @@ def startup_event():
         "prompt": "a beautiful asian woman",
     }
     result = app.state.model.generate(**payload)
+
+    lora_path = "./F.1_dev-fp8-lyf-12.safetensors"
+    app.state.model.load_lora(lora_path, scale=1.0)
+
     print(f'首次加载预热：{result}')
