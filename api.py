@@ -131,6 +131,6 @@ def startup_event():
     result = app.state.model.generate(**payload)
 
     lora_path = "/root/autodl-tmp/models/flux1-schnell/loras/F.1_dev-fp8-lyf-12.safetensors"
-    app.state.model.load_lora(lora_path, scale=2.0)
+    app.state.model.load_lora(lora_path, scale=1.2)
 
     print(f'首次加载预热：{result}')
