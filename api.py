@@ -1,5 +1,8 @@
+import os
 from typing import Literal, Optional, TYPE_CHECKING
 
+import requests
+from tqdm import tqdm
 import numpy as np
 from fastapi import FastAPI
 from fastapi.responses import StreamingResponse, JSONResponse
@@ -123,14 +126,33 @@ def lora_action(args: LoraArgs):
 
 @app.on_event("startup")
 def startup_event():
+
+    lora_path = "/root/autodl-tmp/flux-fp8-api/loras/F.1_dev-fp8-lyf-12.safetensors"
+    if not os.path.exists(lora_path):
+        url = "https://github.com/BruceLee569/PublicSource/releases/download/v1.0.0/F.1_dev-fp8-lyf-12.safetensors"
+        os.makedirs(os.path.dirname(lora_path), exist_ok=True)
+
+        response = requests.get(url, stream=True)
+        response.raise_for_status()
+        # 获取文件大小（如果服务器提供）
+        total_size = int(response.headers.get('content-length', 0))
+        # 下载并显示进度条
+        with open(lora_path, 'wb') as f:
+            with tqdm(total=total_size, unit='B', unit_scale=True, desc="Downloading") as pbar:
+                for chunk in response.iter_content(chunk_size=8192):
+                    if chunk:
+                        f.write(chunk)
+                        pbar.update(len(chunk))
+
+        print(f"文件已下载并保存到: {save_path}")
+
+    app.state.model.load_lora(lora_path, scale=1.2)
+
     payload = {
         "width": 512,
         "height": 512,
         "prompt": "a beautiful asian woman",
     }
     result = app.state.model.generate(**payload)
-
-    lora_path = "/root/autodl-tmp/models/flux1-schnell/loras/F.1_dev-fp8-lyf-12.safetensors"
-    app.state.model.load_lora(lora_path, scale=1.2)
 
     print(f'首次加载预热：{result}')
