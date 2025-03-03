@@ -62,6 +62,6 @@
   "offload_flow": false,
 
   "prequantized_flow": false,
-  "quantize_modulation": true,
+  "quantize_modulation": false,
   "quantize_flow_embedder_layers": false
 }

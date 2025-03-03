@@ -154,5 +154,17 @@ def startup_event():
         "prompt": "a beautiful asian woman",
     }
     result = app.state.model.generate(**payload)
+    payload = {
+        "width": 768,
+        "height": 768,
+        "prompt": "a beautiful asian woman",
+    }
+    result = app.state.model.generate(**payload)
+    payload = {
+        "width": 1024,
+        "height": 1024,
+        "prompt": "a beautiful asian woman",
+    }
+    result = app.state.model.generate(**payload)
 
     print(f'首次加载预热：{result}')
